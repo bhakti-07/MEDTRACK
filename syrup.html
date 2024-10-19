@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,500&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <title>Syrups</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: "DM Sans", sans-serif;
+        background-color: #666;
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+      }
+
+      /* Header */
+      #header {
+        width: 100%;
+        height: 120px;
+        background-color: #0b0d0e;
+        display: flex;
+        align-items: center;
+        padding: 0 20px;
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 1;
+        justify-content: space-between; /* Space between logo and buttons */
+      }
+
+      #logo {
+        height: 100px;
+        width: 200px;
+      }
+
+      #nav-buttons {
+        margin-left: auto;
+        display: flex;
+        gap: 10px; /* Add space between buttons */
+      }
+
+      .nav-btn {
+        font-size: 20px;
+        height: 100%;
+        padding: 20px;
+        color: white;
+        text-decoration: none;
+        cursor: pointer;
+        transition-duration: 0.4s;
+      }
+
+      .nav-btn:hover {
+        color: rgb(210, 33, 33);
+        border-bottom: 2px solid rgb(210, 33, 33);
+      }
+
+      /* Dropdown Menu Styles */
+      #dropdown {
+        display: none;
+        flex-direction: column;
+        position: absolute;
+        top: 120px; /* Align below the header */
+        left: 0;
+        width: 100%;
+        background-color: #0b0d0e;
+        z-index: 1;
+      }
+
+      #dropdown a {
+        padding: 15px;
+        color: white;
+        text-decoration: none;
+        display: block;
+        transition-duration: 0.4s;
+        text-align: center;
+      }
+
+      #dropdown a:hover {
+        background-color: rgb(210, 33, 33);
+      }
+
+      /* Hamburger Button */
+      #hamburger {
+        display: none;
+        flex-direction: column;
+        cursor: pointer;
+      }
+
+      #hamburger div {
+        width: 30px;
+        height: 4px;
+        background-color: white;
+        margin: 4px;
+        transition: 0.3s;
+      }
+
+      /* Content Section */
+      .content {
+        margin-top: 140px; /* Adjusting margin for fixed header */
+        padding: 20px;
+        text-align: center;
+        flex: 1;
+      }
+
+      .cards-container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .card {
+        background-color: rgb(6, 2, 2);
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+        margin: 15px;
+        width: 250px;
+        height: 300px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: center;
+        text-align: center;
+      }
+
+      .card img {
+        width: 100%;
+        height: 150px;
+        object-fit: cover;
+        border-radius: 5px;
+      }
+
+      .card h3 {
+        font-size: 20px;
+        color: white;
+      }
+
+      .card p {
+        font-size: 16px;
+        color: white;
+      }
+
+      .add-to-cart-btn {
+        background-color: #ff5f5f;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        font-size: 16px;
+        cursor: pointer;
+        border-radius: 5px;
+        transition: background-color 0.3s ease;
+      }
+
+      .add-to-cart-btn:hover {
+        background-color: #ff4040;
+      }
+
+      /* Footer */
+      .footer {
+        background-color: #0b0d0e;
+        color: white;
+        padding: 20px;
+        text-align: center;
+      }
+
+      .footer p {
+        margin: 0;
+      }
+
+      /* Media Queries for Responsive Design */
+      @media (max-width: 768px) {
+        #nav-buttons {
+          display: none; /* Hide navigation buttons on small screens */
+        }
+
+        #hamburger {
+          display: flex; /* Show hamburger menu on small screens */
+        }
+
+        #dropdown {
+          display: none; /* Hide dropdown initially */
+        }
+
+        #hamburger.active + #dropdown {
+          display: flex; /* Show dropdown when hamburger is clicked */
+          flex-direction: column; /* Ensure buttons are stacked vertically */
+        }
+
+        #dropdown a {
+          padding: 5px;
+          width: 100%; /* Ensure buttons span the full width */
+        }
+      }
+
+      #buttons {
+        display: flex; /* Ensure it is displayed in desktop view */
+      }
+
+      .menu-btn {
+        display: none; /* Initially hide the menu button */
+      }
+
+      @media (max-width: 768px) {
+        #buttons {
+          display: none; /* Hide buttons on small screens */
+          flex-direction: column; /* Stack them vertically */
+          background-color: #070b0b; /* Same as header background */
+          position: absolute; /* Position absolutely below the header */
+          top: 80px; /* Adjust as per your header height */
+          left: 0;
+          width: 100%;
+          z-index: 2; /* Make sure it appears above other content */
+        }
+
+        #buttons.active {
+          display: flex; /* Show buttons when active */
+        }
+
+        .menu-btn {
+          display: block; /* Show the menu button in mobile view */
+          cursor: pointer; /* Change cursor to pointer for better UX */
+          color: white; /* Ensure visibility */
+          font-size: 24px; /* Adjust size as needed */
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="header">
+      <img id="logo" src="logo.jpg" alt="Logo" />
+      <div id="hamburger" onclick="toggleDropdown()">
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
+      <div id="nav-buttons">
+        <a href="home.html" class="nav-btn">HOME</a>
+        <a href="medicine.html" class="nav-btn">MEDICINE</a>
+        <a href="cart.html" class="nav-btn">CART</a>
+        <a href="contect.html" class="nav-btn">CONTACT</a>
+        <a href="loginpage.html" class="nav-btn">LOGIN</a>
+      </div>
+    </div>
+
+    <div id="dropdown">
+      <a href="home.html" class="nav-btn">HOME</a>
+      <a href="medicine.html" class="nav-btn">MEDICINE</a>
+      <a href="cart.html" class="nav-btn">CART</a>
+      <a href="contect.html" class="nav-btn">CONTACT</a>
+      <a href="loginpage.html" class="nav-btn">LOGIN</a>
+    </div>
+
+    <div class="content">
+      <div class="cards-container">
+        <!-- Card 1 -->
+        <div class="card">
+          <img src="../SAMPLE1/images/fever.webp" alt="Syrup Image" />
+          <h3>Antipyretic</h3>
+          <p>Fever reducer</p>
+          <button class="add-to-cart-btn">Add to Cart</button>
+        </div>
+        <!-- Card 2 -->
+        <div class="card">
+          <img src="../SAMPLE1/images/allergyyrup.jpeg" alt="Syrup Image" />
+          <h3>Allergy</h3>
+          <p>Allergen intolerance</p>
+          <button class="add-to-cart-btn">Add to Cart</button>
+        </div>
+        <!-- Card 3 -->
+        <div class="card">
+          <img src="../SAMPLE1/images/vomitingsyrup.jpeg" alt="Syrup Image" />
+          <h3>Vomiting</h3>
+          <p>Anti-nausea relief</p>
+          <button class="add-to-cart-btn">Add to Cart</button>
+        </div>
+        <!-- Card 4 -->
+        <div class="card">
+          <img src="../SAMPLE1/images/common cold.jpeg" alt="Syrup Image" />
+          <h3>Cold</h3>
+          <p>Relief from congestion</p>
+          <button class="add-to-cart-btn">Add to Cart</button>
+        </div>
+        <!-- Card 5 -->
+        <div class="card">
+          <img src="../SAMPLE1/images/fever.webp" alt="Syrup Image" />
+          <h3>Fever</h3>
+          <p>Temperature reducer</p>
+          <button class="add-to-cart-btn">Add to Cart</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+      <p>&copy; 2024 Your Company Name. All Rights Reserved.</p>
+      <p>Contact: info@yourcompany.com</p>
+    </div>
+
+    <script>
+      function toggleDropdown() {
+        const hamburger = document.getElementById("hamburger");
+        const dropdown = document.getElementById("dropdown");
+        hamburger.classList.toggle("active");
+        dropdown.style.display =
+          dropdown.style.display === "flex" ? "none" : "flex";
+      }
+
+      // Close dropdown if clicked outside
+      window.onclick = function (event) {
+        if (
+          !event.target.matches("#hamburger") &&
+          !event.target.matches("#hamburger *")
+        ) {
+          const dropdown = document.getElementById("dropdown");
+          dropdown.style.display = "none";
+        }
+      };
+    </script>
+  </body>
+</html>
